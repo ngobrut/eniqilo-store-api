@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	en_translations "github.com/go-playground/validator/v10/translations/en"
 
 	"github.com/go-playground/locales/en"
+	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
 	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
 )
 
@@ -47,6 +49,7 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 	uni := ut.New(eng, eng)
 	trans, _ := uni.GetTranslator("en")
 	_ = en_translations.RegisterDefaultTranslations(validate, trans)
+	validate.RegisterValidation("category", validateCategory)
 
 	err = validate.Struct(data)
 	if err == nil {
@@ -57,6 +60,12 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 	var details = make([]string, 0)
 	for _, field := range err.(validator.ValidationErrors) {
 		message = field.Translate(trans)
+
+		switch field.Tag() {
+		case "category":
+			message = fmt.Sprintf("%s must be one of [%s]", field.Field(), strings.Join(constant.Categories, ", "))
+		}
+
 		details = append(details, message)
 	}
 
@@ -67,4 +76,8 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 	}
 
 	return err
+}
+
+func validateCategory(fl validator.FieldLevel) bool {
+	return constant.ValidCategory[fl.Field().String()]
 }
