@@ -47,3 +47,26 @@ func (u *Usecase) GetListProduct(ctx context.Context, req *request.ListProductQu
 	}
 	return res, nil
 }
+
+func (u *Usecase) UpdateProduct(ctx context.Context, req *request.UpdateProduct) error {
+	_, err := u.repo.FindOneProductByID(ctx, req.ProductID)
+	if err != nil {
+		err = custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusNotFound,
+			Message:  constant.HTTPStatusText(http.StatusNotFound),
+		})
+
+		return err
+	}
+
+	err = u.repo.UpdateProduct(ctx, req)
+	if err != nil {
+		return custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+	}
+
+	return nil
+
+}

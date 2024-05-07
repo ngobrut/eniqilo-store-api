@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
@@ -40,6 +42,34 @@ func (r *Repository) CreateProduct(ctx context.Context, data *model.Product) err
 	}
 
 	return nil
+}
+
+func (r *Repository) FindOneProductByID(ctx context.Context, ID uuid.UUID) (*model.Product, error) {
+	product := &model.Product{}
+	query := `SELECT  *
+		FROM products WHERE product_id = $1 AND deleted_at IS NULL`
+	err := r.db.QueryRow(ctx, query, ID).
+		Scan(
+			&product.ProductID,
+			&product.Name,
+			&product.Sku,
+			&product.Category,
+			&product.ImageUrl,
+			&product.Notes,
+			&product.Price,
+			&product.Stock,
+			&product.Location,
+			&product.IsAvailable,
+			&product.CreatedAt,
+			&product.UpdatedAt,
+			&product.DeletedAt,
+		)
+	if err != nil {
+
+		return nil, err
+	}
+	return product, nil
+
 }
 
 func (r *Repository) FindProducts(ctx context.Context, params *request.ListProductQuery) ([]*response.ListProduct, error) {
@@ -155,4 +185,39 @@ func (r *Repository) FindProducts(ctx context.Context, params *request.ListProdu
 	}
 
 	return res, nil
+}
+
+func (r *Repository) UpdateProduct(ctx context.Context, req *request.UpdateProduct) error {
+	query := `UPDATE products 
+		SET name = @name, 
+			sku = @sku,
+			category = @category, 
+			image_url = @image_url, 
+			notes = @notes, 
+			price = @price, 
+			stock = @stock, 
+			location = @location, 
+			is_available = @is_available, 
+			updated_at = @updated_at 
+		WHERE product_id = @product_id`
+
+	args := pgx.NamedArgs{
+		"name":         req.Name,
+		"sku":          req.Sku,
+		"category":     req.Category,
+		"image_url":    req.ImageUrl,
+		"notes":        req.Notes,
+		"price":        req.Price,
+		"stock":        req.Stock,
+		"location":     req.Location,
+		"is_available": req.IsAvailable,
+		"updated_at":   time.Now(),
+		"product_id":   req.ProductID,
+	}
+	_, err := r.db.Exec(ctx, query, args)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }

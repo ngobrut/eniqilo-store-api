@@ -17,5 +17,7 @@ type IFaceRepository interface {
 
 	// product
 	CreateProduct(ctx context.Context, data *model.Product) error
+	FindOneProductByID(ctx context.Context, ID uuid.UUID) (*model.Product, error)
 	FindProducts(ctx context.Context, params *request.ListProductQuery) ([]*response.ListProduct, error)
+	UpdateProduct(ctx context.Context, req *request.UpdateProduct) error
 }
