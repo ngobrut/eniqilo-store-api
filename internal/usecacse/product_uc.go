@@ -2,10 +2,13 @@ package usecacse
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
 )
 
 func (u *Usecase) CreateProduct(ctx context.Context, req *request.CreateProduct) (*response.CreateProduct, error) {
@@ -28,8 +31,19 @@ func (u *Usecase) CreateProduct(ctx context.Context, req *request.CreateProduct)
 
 	res := &response.CreateProduct{
 		ProductID: product.ProductID.String(),
-		CreatedAt: product.CreatedAt,
+		CreatedAt: product.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 
+	return res, nil
+}
+
+func (u *Usecase) GetListProduct(ctx context.Context, req *request.ListProductQuery) ([]*response.ListProduct, error) {
+	res, err := u.repo.FindProducts(ctx, req)
+	if err != nil {
+		return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+	}
 	return res, nil
 }

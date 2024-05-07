@@ -67,6 +67,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 
 		r.Route("/product", func(product chi.Router) {
 			product.Post("/", h.CreateProduct)
+			product.Get("/", h.GetListProduct)
 		})
 
 		r.Route("/example", func(example chi.Router) {

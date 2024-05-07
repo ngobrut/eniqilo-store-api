@@ -17,4 +17,5 @@ type IFaceUsecase interface {
 
 	// product
 	CreateProduct(ctx context.Context, req *request.CreateProduct) (*response.CreateProduct, error)
+	GetListProduct(ctx context.Context, req *request.ListProductQuery) ([]*response.ListProduct, error)
 }

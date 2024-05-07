@@ -5,6 +5,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
+	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
 )
 
 type IFaceRepository interface {
@@ -15,4 +17,5 @@ type IFaceRepository interface {
 
 	// product
 	CreateProduct(ctx context.Context, data *model.Product) error
+	FindProducts(ctx context.Context, params *request.ListProductQuery) ([]*response.ListProduct, error)
 }

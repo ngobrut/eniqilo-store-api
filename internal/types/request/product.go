@@ -15,3 +15,16 @@ type CreateProduct struct {
 	Location    string            `json:"location" validate:"required,min=1,max=200"`
 	IsAvailable *bool             `json:"isAvailable" validate:"required"`
 }
+
+type ListProductQuery struct {
+	ID          *string
+	Limit       *int
+	Offset      *int
+	Name        *string
+	IsAvailable *bool
+	Category    *string
+	Sku         *string
+	InStock     *bool
+	Price       *string
+	CreatedAt   *string
+}
