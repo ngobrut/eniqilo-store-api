@@ -1,27 +1,30 @@
 CREATE TABLE IF NOT EXISTS users (
-    user_id uuid default gen_random_uuid() not null constraint users_pk primary key,
-    name varchar(50) not null,
-    phone varchar(25) not null,
-    password varchar(500) not null,
-    created_at timestamp default now(),
-    updated_at timestamp default now()
+	user_id uuid default gen_random_uuid() not null constraint users_pk primary key,
+	name varchar(50) not null,
+	phone varchar(25) not null,
+	password varchar(500) not null,
+	created_at timestamp default now(),
+	updated_at timestamp default now(),
+	deleted_at timestamp default null
 );
+
 CREATE UNIQUE INDEX unique_user_phone_idx ON users (phone);
-    
+
 CREATE TABLE IF NOT EXISTS customers (
-    customer_id uuid default gen_random_uuid() not null constraint customers_pk primary key,
-    name varchar(50) not null,
-    phone varchar(25) not null,
-    created_at timestamp default now(),
-    updated_at timestamp default now()
+	customer_id uuid default gen_random_uuid() not null constraint customers_pk primary key,
+	name varchar(50) not null,
+	phone varchar(25) not null,
+	created_at timestamp default now(),
+	updated_at timestamp default now()
 );
+
 CREATE UNIQUE INDEX unique_customer_phone_idx on customers (phone);
 
 CREATE TABLE IF NOT EXISTS products (
 	product_id uuid default gen_random_uuid() not null constraint products_pk primary key,
 	name varchar(30) not null,
 	sku varchar(30) not null,
-	category  varchar(30) not null,
+	category varchar(30) not null,
 	image_url text not null,
 	notes varchar(200) not null,
 	price int not null,
@@ -29,8 +32,8 @@ CREATE TABLE IF NOT EXISTS products (
 	location varchar(200),
 	is_available bool not null,
 	created_at timestamp default now(),
-    updated_at timestamp default now(),
-    deleted_at timestamp default null
+	updated_at timestamp default now(),
+	deleted_at timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS checkouts (

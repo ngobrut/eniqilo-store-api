@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"database/sql"
-	"errors"
 	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -26,5 +24,5 @@ func IsDuplicateError(err error) bool {
 }
 
 func IsRecordNotFound(err error) bool {
-	return errors.Is(err, sql.ErrNoRows)
+	return strings.Contains(err.Error(), "no rows in result set")
 }

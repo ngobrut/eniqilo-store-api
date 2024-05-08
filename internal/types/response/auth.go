@@ -1,10 +1,10 @@
 package response
 
-import "time"
+import "github.com/google/uuid"
 
 type AuthResponse struct {
+	UserID      uuid.UUID `json:"user_id"`
+	Phone       string    `json:"phone"`
 	Name        string    `json:"name"`
-	Email       string    `json:"email"`
-	CreatedAt   time.Time `json:"createdAt,omitempty"`
 	AccessToken string    `json:"accessToken,omitempty"`
 }

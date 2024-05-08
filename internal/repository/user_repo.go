@@ -13,18 +13,17 @@ import (
 
 // CreateUser implements IFaceRepository.
 func (r *Repository) CreateUser(ctx context.Context, data *model.User) error {
-	query := `INSERT INTO users(name, email, password) VALUES (@name, @email, @password) RETURNING user_id, name, email, created_at`
+	query := `INSERT INTO users(name, phone, password) VALUES (@name, @phone, @password) RETURNING user_id, name, phone`
 	args := pgx.NamedArgs{
 		"name":     data.Name,
-		"email":    data.Email,
+		"phone":    data.Phone,
 		"password": data.Password,
 	}
 
 	dest := []interface{}{
 		&data.UserID,
 		&data.Name,
-		&data.Email,
-		&data.CreatedAt,
+		&data.Phone,
 	}
 
 	err := r.db.QueryRow(ctx, query, args).Scan(dest...)
@@ -44,18 +43,58 @@ func (r *Repository) CreateUser(ctx context.Context, data *model.User) error {
 
 // GetOneUserByID implements IFaceRepository.
 func (r *Repository) GetOneUserByID(ctx context.Context, userID uuid.UUID) (*model.User, error) {
-	var res *model.User
+	res := &model.User{}
 
-	// todo:
+	err := r.db.
+		QueryRow(ctx, "SELECT * FROM users WHERE user_id = $1", userID).
+		Scan(
+			&res.UserID,
+			&res.Name,
+			&res.Phone,
+			&res.Password,
+			&res.CreatedAt,
+			&res.UpdatedAt,
+		)
+
+	if err != nil {
+		if IsRecordNotFound(err) {
+			err = custom_error.SetCustomError(&custom_error.ErrorContext{
+				HTTPCode: http.StatusNotFound,
+				Message:  constant.HTTPStatusText(http.StatusNotFound),
+			})
+		}
+
+		return nil, err
+	}
 
 	return res, nil
 }
 
 // GetOneUserByEmail implements IFaceRepository.
-func (r *Repository) GetOneUserByEmail(ctx context.Context, email string) (*model.User, error) {
-	var res *model.User
+func (r *Repository) GetOneUserByPhone(ctx context.Context, phone string) (*model.User, error) {
+	res := &model.User{}
 
-	// todo:
+	err := r.db.
+		QueryRow(ctx, "SELECT * FROM users WHERE phone = $1", phone).
+		Scan(
+			&res.UserID,
+			&res.Name,
+			&res.Phone,
+			&res.Password,
+			&res.CreatedAt,
+			&res.UpdatedAt,
+		)
+
+	if err != nil {
+		if IsRecordNotFound(err) {
+			err = custom_error.SetCustomError(&custom_error.ErrorContext{
+				HTTPCode: http.StatusNotFound,
+				Message:  constant.HTTPStatusText(http.StatusNotFound),
+			})
+		}
+
+		return nil, err
+	}
 
 	return res, nil
 }

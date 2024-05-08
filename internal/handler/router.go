@@ -55,7 +55,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 	})
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Route("/user", func(user chi.Router) {
+		r.Route("/staff", func(user chi.Router) {
 			user.Post("/register", h.Register)
 			user.Post("/login", h.Login)
 
@@ -66,6 +66,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 		})
 
 		r.Route("/product", func(product chi.Router) {
+			product.Use(middleware.Authorize(cnf.JWTSecret))
 			product.Post("/", h.CreateProduct)
 			product.Get("/", h.GetListProduct)
 			product.Put("/{id}", h.UpdateProduct)
@@ -73,12 +74,8 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 		})
 
 		r.Route("/product/customer", func(search chi.Router) {
+			search.Use(middleware.Authorize(cnf.JWTSecret))
 			search.Get("/", h.SearchSKU)
-		})
-
-		r.Route("/example", func(example chi.Router) {
-			example.Use(middleware.Authorize(cnf.JWTSecret))
-			example.Get("/", h.Example)
 		})
 	})
 

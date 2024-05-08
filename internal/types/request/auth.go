@@ -1,12 +1,12 @@
 package request
 
 type Register struct {
-	Name     string `json:"name" validate:"required"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Name     string `json:"name" validate:"required,min=5,max=50"`
+	Phone    string `json:"phone" validate:"required,min=10,max=16"`
+	Password string `json:"password" validate:"required,min=5,max=15"`
 }
 
 type Login struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+	Phone    string `json:"phone" validate:"required,min=10,max=16"`
+	Password string `json:"password" validate:"required,min=5,max=15"`
 }

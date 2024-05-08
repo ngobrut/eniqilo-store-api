@@ -8,13 +8,8 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
 	custom_jwt "github.com/ngobrut/eniqlo-store-api/pkg/jwt"
-)
-
-type JwtKey string
-
-const (
-	UserIDKey JwtKey = "user_id"
 )
 
 func Authorize(secret string) func(h http.Handler) http.Handler {
@@ -42,7 +37,7 @@ func Authorize(secret string) func(h http.Handler) http.Handler {
 			}
 
 			ctx := r.Context()
-			ctx = context.WithValue(ctx, UserIDKey, claims.ID)
+			ctx = context.WithValue(ctx, constant.UserIDKey, claims.UserID)
 			h.ServeHTTP(w, r.WithContext(ctx))
 		}
 
