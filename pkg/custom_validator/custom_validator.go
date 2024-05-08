@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"regexp"
 	"strings"
 
 	ut "github.com/go-playground/universal-translator"
@@ -50,6 +51,7 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 	trans, _ := uni.GetTranslator("en")
 	_ = en_translations.RegisterDefaultTranslations(validate, trans)
 	validate.RegisterValidation("category", validateCategory)
+	validate.RegisterValidation("phoneCode", validatePhoneNumber)
 
 	err = validate.Struct(data)
 	if err == nil {
@@ -64,6 +66,8 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 		switch field.Tag() {
 		case "category":
 			message = fmt.Sprintf("%s must be one of [%s]", field.Field(), strings.Join(constant.Categories, ", "))
+		case "phoneCode":
+			message = "should start with `+` and international calling codes"
 		}
 
 		details = append(details, message)
@@ -80,4 +84,14 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 
 func validateCategory(fl validator.FieldLevel) bool {
 	return constant.ValidCategory[fl.Field().String()]
+}
+
+func validatePhoneNumber(fl validator.FieldLevel) bool {
+	for _, code := range constant.CountryCode {
+		match, _ := regexp.MatchString("^"+regexp.QuoteMeta(code)+`\d+$`, fl.Field().String())
+		if match {
+			return true
+		}
+	}
+	return false
 }
