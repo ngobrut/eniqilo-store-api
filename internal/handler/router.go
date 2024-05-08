@@ -72,6 +72,10 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 			product.Delete("/{id}", h.DeleteProduct)
 		})
 
+		r.Route("/product/customer", func(search chi.Router) {
+			search.Get("/", h.SearchSKU)
+		})
+
 		r.Route("/example", func(example chi.Router) {
 			example.Use(middleware.Authorize(cnf.JWTSecret))
 			example.Get("/", h.Example)

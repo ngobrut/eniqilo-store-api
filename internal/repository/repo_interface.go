@@ -21,4 +21,7 @@ type IFaceRepository interface {
 	FindProducts(ctx context.Context, params *request.ListProductQuery) ([]*response.ListProduct, error)
 	UpdateProduct(ctx context.Context, req *request.UpdateProduct) error
 	DeleteProduct(ctx context.Context, productID uuid.UUID) error
+
+	// search
+	SearchSKU(ctx context.Context, params *request.SearchQuery) ([]*response.SearchSKU, error)
 }

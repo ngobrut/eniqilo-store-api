@@ -12,6 +12,13 @@ import (
 	"github.com/ngobrut/eniqlo-store-api/pkg/custom_validator"
 )
 
+func StringPtr(s string) *string {
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
 func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var req request.CreateProduct
 	err := custom_validator.ValidateStruct(r, &req)
@@ -33,12 +40,12 @@ func (h *Handler) GetListProduct(w http.ResponseWriter, r *http.Request) {
 	qp := r.URL.Query()
 
 	params := &request.ListProductQuery{
-		ID:        stringPtr(qp.Get("id")),
-		Name:      stringPtr(qp.Get("name")),
-		Category:  stringPtr(qp.Get("category")),
-		Sku:       stringPtr(qp.Get("sku")),
-		Price:     stringPtr(qp.Get("price")),
-		CreatedAt: stringPtr(qp.Get("createdAt")),
+		ID:        StringPtr(qp.Get("id")),
+		Name:      StringPtr(qp.Get("name")),
+		Category:  StringPtr(qp.Get("category")),
+		Sku:       StringPtr(qp.Get("sku")),
+		Price:     StringPtr(qp.Get("price")),
+		CreatedAt: StringPtr(qp.Get("createdAt")),
 	}
 
 	if limit, err := strconv.Atoi(qp.Get("limit")); err == nil {
@@ -61,13 +68,6 @@ func (h *Handler) GetListProduct(w http.ResponseWriter, r *http.Request) {
 	}
 	response.OK(w, http.StatusOK, res)
 
-}
-
-func stringPtr(s string) *string {
-	if s == "" {
-		return nil
-	}
-	return &s
 }
 
 func (h *Handler) UpdateProduct(w http.ResponseWriter, r *http.Request) {

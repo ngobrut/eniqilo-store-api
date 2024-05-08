@@ -20,4 +20,7 @@ type IFaceUsecase interface {
 	GetListProduct(ctx context.Context, req *request.ListProductQuery) ([]*response.ListProduct, error)
 	UpdateProduct(ctx context.Context, req *request.UpdateProduct) error
 	DeleteProduct(ctx context.Context, productID uuid.UUID) error
+
+	// search sku
+	SearchSKU(ctx context.Context, req *request.SearchQuery) ([]*response.SearchSKU, error)
 }
