@@ -19,4 +19,5 @@ type IFaceUsecase interface {
 	CreateProduct(ctx context.Context, req *request.CreateProduct) (*response.CreateProduct, error)
 	GetListProduct(ctx context.Context, req *request.ListProductQuery) ([]*response.ListProduct, error)
 	UpdateProduct(ctx context.Context, req *request.UpdateProduct) error
+	DeleteProduct(ctx context.Context, productID uuid.UUID) error
 }

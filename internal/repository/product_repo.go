@@ -65,8 +65,17 @@ func (r *Repository) FindOneProductByID(ctx context.Context, ID uuid.UUID) (*mod
 			&product.DeletedAt,
 		)
 	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+				HTTPCode: http.StatusNotFound,
+				Message:  constant.HTTPStatusText(http.StatusNotFound),
+			})
+		}
 
-		return nil, err
+		return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
 	}
 	return product, nil
 
@@ -220,4 +229,14 @@ func (r *Repository) UpdateProduct(ctx context.Context, req *request.UpdateProdu
 	}
 	return nil
 
+}
+
+func (r *Repository) DeleteProduct(ctx context.Context, productID uuid.UUID) error {
+	query := `UPDATE products SET deleted_at = $1 WHERE product_id = $2`
+	_, err := r.db.Exec(ctx, query, time.Now(), productID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

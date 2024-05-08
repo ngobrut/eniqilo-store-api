@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
@@ -51,11 +52,6 @@ func (u *Usecase) GetListProduct(ctx context.Context, req *request.ListProductQu
 func (u *Usecase) UpdateProduct(ctx context.Context, req *request.UpdateProduct) error {
 	_, err := u.repo.FindOneProductByID(ctx, req.ProductID)
 	if err != nil {
-		err = custom_error.SetCustomError(&custom_error.ErrorContext{
-			HTTPCode: http.StatusNotFound,
-			Message:  constant.HTTPStatusText(http.StatusNotFound),
-		})
-
 		return err
 	}
 
@@ -69,4 +65,19 @@ func (u *Usecase) UpdateProduct(ctx context.Context, req *request.UpdateProduct)
 
 	return nil
 
+}
+
+func (u *Usecase) DeleteProduct(ctx context.Context, productID uuid.UUID) error {
+	_, err := u.repo.FindOneProductByID(ctx, productID)
+	if err != nil {
+		return err
+	}
+	err = u.repo.DeleteProduct(ctx, productID)
+	if err != nil {
+		return custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+	}
+	return nil
 }

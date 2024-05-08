@@ -96,3 +96,21 @@ func (h *Handler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 	response.OK(w, http.StatusOK, nil)
 }
+
+func (h *Handler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	productID, err := uuid.Parse(r.PathValue(("id")))
+	if err != nil {
+		err = custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusNotFound,
+			Message:  constant.HTTPStatusText(http.StatusNotFound),
+		})
+		response.Error(w, err)
+		return
+	}
+	err = h.uc.DeleteProduct(r.Context(), productID)
+	if err != nil {
+		response.Error(w, err)
+		return
+	}
+	response.OK(w, http.StatusOK, nil)
+}
