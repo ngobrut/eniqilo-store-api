@@ -27,13 +27,8 @@ func (h *Handler) RegisterCustomer(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetListCustomer(w http.ResponseWriter, r *http.Request) {
 	qp := r.URL.Query()
 
-	phone := qp.Get("phoneNumber")
-	if len(phone) > 0 && phone[0] == ' ' {
-		phone = "+" + phone[1:]
-	}
-
 	params := &request.ListCustomerQuery{
-		Phone: StringPtr(phone),
+		Phone: StringPtr(qp.Get("phoneNumber")),
 		Name:  StringPtr(qp.Get("name")),
 	}
 

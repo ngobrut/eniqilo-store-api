@@ -82,7 +82,7 @@ func (r *Repository) FindCustomers(ctx context.Context, params *request.ListCust
 
 	if params.Phone != nil {
 		clause = append(clause, fmt.Sprintf(" phone ilike $%d", counter))
-		args = append(args, *params.Phone+"%")
+		args = append(args, "+"+*params.Phone+"%")
 		counter++
 	}
 	if params.Name != nil {
