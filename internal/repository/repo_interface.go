@@ -27,4 +27,5 @@ type IFaceRepository interface {
 
 	// customer
 	CreateCustomer(ctx context.Context, data *model.Customer) error
+	FindCustomers(ctx context.Context, params *request.ListCustomerQuery) ([]*response.ListCustomer, error)
 }

@@ -7,3 +7,9 @@ type RegisterCustomer struct {
 	Phone      string    `json:"phoneNumber" db:"phone"`
 	Name       string    `json:"name" db:"name"`
 }
+
+type ListCustomer struct {
+	CustomerID uuid.UUID `json:"userID" db:"customer_id"`
+	Phone      string    `json:"phoneNumber" db:"phone"`
+	Name       string    `json:"name" db:"name"`
+}

@@ -2,10 +2,13 @@ package usecacse
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
 )
 
 func (u *Usecase) RegisterCustomer(ctx context.Context, req *request.RegisterCustomer) (*response.RegisterCustomer, error) {
@@ -27,4 +30,16 @@ func (u *Usecase) RegisterCustomer(ctx context.Context, req *request.RegisterCus
 
 	return res, nil
 
+}
+
+func (u *Usecase) GetListCustomer(ctx context.Context, req *request.ListCustomerQuery) ([]*response.ListCustomer, error) {
+	res, err := u.repo.FindCustomers(ctx, req)
+	if err != nil {
+		return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+	}
+
+	return res, nil
 }

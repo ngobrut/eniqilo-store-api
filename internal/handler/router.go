@@ -80,6 +80,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 		r.Route("/customer", func(customer chi.Router) {
 			customer.Use(middleware.Authorize(cnf.JWTSecret))
 			customer.Post("/register", h.RegisterCustomer)
+			customer.Get("/", h.GetListCustomer)
 		})
 	})
 
