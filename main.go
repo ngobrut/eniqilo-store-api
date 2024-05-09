@@ -12,7 +12,7 @@ import (
 	"github.com/ngobrut/eniqlo-store-api/config"
 	http_handler "github.com/ngobrut/eniqlo-store-api/internal/handler"
 	"github.com/ngobrut/eniqlo-store-api/internal/repository"
-	"github.com/ngobrut/eniqlo-store-api/internal/usecacse"
+	"github.com/ngobrut/eniqlo-store-api/internal/usecase"
 	"github.com/ngobrut/eniqlo-store-api/pkg/postgres"
 	"github.com/sirupsen/logrus"
 )
@@ -31,7 +31,7 @@ func Exec() error {
 	}
 
 	repo := repository.New(cnf, db)
-	uc := usecacse.New(cnf, db, repo)
+	uc := usecase.New(cnf, db, repo)
 	handler := http_handler.InitHTTPHandler(cnf, uc, logger)
 
 	httpServer := &http.Server{

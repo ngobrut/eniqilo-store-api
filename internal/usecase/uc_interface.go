@@ -1,4 +1,4 @@
-package usecacse
+package usecase
 
 import (
 	"context"
@@ -27,4 +27,7 @@ type IFaceUsecase interface {
 	// customer
 	RegisterCustomer(ctx context.Context, req *request.RegisterCustomer) (*response.RegisterCustomer, error)
 	GetListCustomer(ctx context.Context, req *request.ListCustomerQuery) ([]*response.ListCustomer, error)
+
+	// checkout
+	Checkout(ctx context.Context, req *request.Checkout) error
 }

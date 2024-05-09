@@ -12,15 +12,15 @@ import (
 	"github.com/ngobrut/eniqlo-store-api/config"
 	"github.com/ngobrut/eniqlo-store-api/internal/middleware"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/internal/usecacse"
+	"github.com/ngobrut/eniqlo-store-api/internal/usecase"
 )
 
 type Handler struct {
 	cnf *config.Config
-	uc  usecacse.IFaceUsecase
+	uc  usecase.IFaceUsecase
 }
 
-func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logrus.Logger) http.Handler {
+func InitHTTPHandler(cnf *config.Config, uc usecase.IFaceUsecase, logger *logrus.Logger) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestLogger)
 	r.Use(middleware.Recover(logger))
@@ -71,6 +71,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 			product.Get("/", h.GetListProduct)
 			product.Put("/{id}", h.UpdateProduct)
 			product.Delete("/{id}", h.DeleteProduct)
+			product.Post("/checkout", h.Checkout)
 		})
 
 		r.Route("/product/customer", func(search chi.Router) {
@@ -82,6 +83,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecacse.IFaceUsecase, logger *logru
 			customer.Post("/register", h.RegisterCustomer)
 			customer.Get("/", h.GetListCustomer)
 		})
+
 	})
 
 	return r
