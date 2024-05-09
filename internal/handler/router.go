@@ -72,6 +72,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecase.IFaceUsecase, logger *logrus
 			product.Put("/{id}", h.UpdateProduct)
 			product.Delete("/{id}", h.DeleteProduct)
 			product.Post("/checkout", h.Checkout)
+			product.Get("/checkout/history", h.GetListInvoice)
 		})
 
 		r.Route("/product/customer", func(search chi.Router) {

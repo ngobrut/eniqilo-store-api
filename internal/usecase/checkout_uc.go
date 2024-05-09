@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
 	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
 	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
 )
@@ -97,4 +98,15 @@ func (u *Usecase) Checkout(ctx context.Context, req *request.Checkout) error {
 	}
 
 	return nil
+}
+
+func (u *Usecase) GetListInvoice(ctx context.Context, req *request.ListInvoiceQuery) ([]*response.ListInvoice, error) {
+	res, err := u.repo.FindInvoices(ctx, req)
+	if err != nil {
+		return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+	}
+	return res, nil
 }

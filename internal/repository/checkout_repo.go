@@ -8,6 +8,8 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
+	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
 	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
 	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
 )
@@ -111,4 +113,102 @@ func (r *Repository) CreateInvoice(ctx context.Context, invoice *model.Invoice, 
 		return err
 	}
 	return nil
+}
+
+func (r *Repository) FindInvoices(ctx context.Context, params *request.ListInvoiceQuery) ([]*response.ListInvoice, error) {
+	query := `SELECT
+			i.invoice_id,
+			i.customer_id,
+			ip.product_id,
+			ip.quantity,
+			i.paid,
+			i.change	
+		FROM invoice_products ip
+		LEFT JOIN invoices i ON ip.invoice_id = i.invoice_id `
+
+	subQuery := ` SELECT i.invoice_id FROM invoices i`
+	var args = make([]interface{}, 0)
+	var counter int = 1
+	if params.CustomerID != nil {
+		subQuery += fmt.Sprintf(" WHERE i.customer_id = $%d", counter)
+		args = append(args, params.CustomerID)
+		counter++
+	}
+
+	queryOrderby := " ORDER BY i.created_at DESC"
+	if params.CreatedAt != nil && *params.CreatedAt == "asc" {
+		queryOrderby = " ORDER BY i.created_at ASC"
+	}
+	subQuery += queryOrderby
+
+	if params.Limit != nil && *params.Limit != 0 {
+		subQuery += fmt.Sprintf(" LIMIT $%d", counter)
+		args = append(args, params.Limit)
+		counter++
+	} else {
+		subQuery += fmt.Sprintf(" LIMIT $%d", counter)
+		args = append(args, 5)
+		counter++
+	}
+
+	if params.Offset != nil {
+		subQuery += fmt.Sprintf(" OFFSET $%d", counter)
+		args = append(args, params.Offset)
+		counter++
+	} else {
+		subQuery += fmt.Sprintf(" OFFSET $%d", counter)
+		args = append(args, 0)
+		counter++
+	}
+
+	query += " WHERE i.invoice_id IN (" + subQuery + " )" + queryOrderby
+
+	rows, err := r.db.Query(ctx, query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	res := make([]*response.ListInvoice, 0)
+
+	var isFirst = true
+	productDetails := make([]response.ProductDetail, 0)
+	prevIN := &response.ListInvoice{}
+	for rows.Next() {
+		pd := &response.ProductDetail{}
+		currIN := &response.ListInvoice{}
+		err = rows.Scan(
+			&currIN.InvoiceID,
+			&currIN.CustomerID,
+			&pd.ProductID,
+			&pd.Quantity,
+			&currIN.Paid,
+			&currIN.Change,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		if isFirst {
+			prevIN = currIN
+			isFirst = false
+		}
+
+		if prevIN.InvoiceID != currIN.InvoiceID {
+			prevIN.ProductDetail = productDetails
+			res = append(res, prevIN)
+			productDetails = make([]response.ProductDetail, 0)
+			prevIN = currIN
+		}
+		productDetails = append(productDetails, *pd)
+
+	}
+	prevIN.ProductDetail = productDetails
+	res = append(res, prevIN)
+	if prevIN.InvoiceID.String() == "00000000-0000-0000-0000-000000000000" {
+		res = make([]*response.ListInvoice, 0)
+	}
+
+	return res, nil
+
 }

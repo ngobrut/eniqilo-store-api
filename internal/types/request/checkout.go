@@ -11,3 +11,10 @@ type Checkout struct {
 	Paid           int               `json:"paid" validate:"required,min=1"`
 	Change         *int              `josn:"change" validate:"required,min=0"`
 }
+
+type ListInvoiceQuery struct {
+	CustomerID *string
+	Limit      *int
+	Offset     *int
+	CreatedAt  *string
+}

@@ -30,4 +30,5 @@ type IFaceUsecase interface {
 
 	// checkout
 	Checkout(ctx context.Context, req *request.Checkout) error
+	GetListInvoice(ctx context.Context, req *request.ListInvoiceQuery) ([]*response.ListInvoice, error)
 }

@@ -33,4 +33,5 @@ type IFaceRepository interface {
 	// checkout
 	CheckProductChekoutByIDs(ctx context.Context, IDs []string) (map[string]*model.Product, error)
 	CreateInvoice(ctx context.Context, invoice *model.Invoice, invoiceProducts []*model.InvoiceProduct) error
+	FindInvoices(ctx context.Context, params *request.ListInvoiceQuery) ([]*response.ListInvoice, error)
 }
