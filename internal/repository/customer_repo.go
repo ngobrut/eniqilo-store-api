@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/ngobrut/eniqlo-store-api/internal/model"
 	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
@@ -42,6 +43,34 @@ func (r *Repository) CreateCustomer(ctx context.Context, data *model.Customer) e
 	}
 
 	return nil
+}
+
+func (r *Repository) FindOneCustomerByID(ctx context.Context, ID uuid.UUID) (*model.Customer, error) {
+	customer := &model.Customer{}
+	query := `SELECT * FROM customers WHERE customer_id = $1`
+
+	err := r.db.QueryRow(ctx, query, ID).
+		Scan(
+			&customer.CustomerID,
+			&customer.Phone,
+			&customer.Name,
+			&customer.CreatedAt,
+			&customer.UpdatedAt,
+		)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+				HTTPCode: http.StatusNotFound,
+				Message:  "customerId is not found",
+			})
+		}
+		return nil, custom_error.SetCustomError(&custom_error.ErrorContext{
+			HTTPCode: http.StatusInternalServerError,
+			Message:  constant.HTTPStatusText(http.StatusInternalServerError),
+		})
+
+	}
+	return customer, nil
 }
 
 func (r *Repository) FindCustomers(ctx context.Context, params *request.ListCustomerQuery) ([]*response.ListCustomer, error) {

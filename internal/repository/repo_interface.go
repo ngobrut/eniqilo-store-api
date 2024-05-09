@@ -27,5 +27,10 @@ type IFaceRepository interface {
 
 	// customer
 	CreateCustomer(ctx context.Context, data *model.Customer) error
+	FindOneCustomerByID(ctx context.Context, ID uuid.UUID) (*model.Customer, error)
 	FindCustomers(ctx context.Context, params *request.ListCustomerQuery) ([]*response.ListCustomer, error)
+
+	// checkout
+	CheckProductChekoutByIDs(ctx context.Context, IDs []string) (map[string]*model.Product, error)
+	CreateInvoice(ctx context.Context, invoice *model.Invoice, invoiceProducts []*model.InvoiceProduct) error
 }
