@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
 	deleted_at timestamp default null
 );
 
-CREATE UNIQUE INDEX unique_user_phone_idx ON users (phone);
+CREATE UNIQUE INDEX unique_user_phone_idx ON users (phone)
+WHERE deleted_at IS NULL;
 
 CREATE TABLE IF NOT EXISTS customers (
 	customer_id uuid default gen_random_uuid() not null constraint customers_pk primary key,
@@ -35,9 +36,11 @@ CREATE TABLE IF NOT EXISTS products (
 	updated_at timestamp default now(),
 	deleted_at timestamp default null
 );
+CREATE INDEX idx_sku ON products(sku);
+CREATE INDEX idx_name ON products(name);
 
-CREATE TABLE IF NOT EXISTS checkouts (
-	checkout_id uuid default gen_random_uuid() not null constraint checkouts_pk primary key,
+CREATE TABLE IF NOT EXISTS invoices (
+	invoice_id uuid default gen_random_uuid() not null constraint invoice_pk primary key,
 	customer_id uuid not null,
 	total_price int not null,
 	paid int not null,
@@ -47,13 +50,18 @@ CREATE TABLE IF NOT EXISTS checkouts (
 	constraint customer_id_fk foreign key (customer_id) references customers(customer_id)
 );
 
-CREATE TABLE IF NOT EXISTS checkout_products (
-	id serial not null constraint checkout_product_id_pk primary key,
-	checkout_id uuid not null,
+CREATE INDEX idx_invoices_customer_id ON invoices(customer_id);
+
+CREATE TABLE IF NOT EXISTS invoice_products (
+	id serial not null constraint invoice_product_id_pk primary key,
+	invoice_id uuid not null,
 	product_id uuid not null,
 	quantity int not null,
 	price int not null,
 	created_at timestamp default now(),
-	constraint cp_checkout_id_fk foreign key (checkout_id) references checkouts(checkout_id),
-	constraint cp_product_id_fk foreign key (product_id) references products(product_id)
+	constraint ip_invoice_id_fk foreign key (invoice_id) references invoices(invoice_id),
+	constraint ip_product_id_fk foreign key (product_id) references products(product_id)
 );
+
+CREATE INDEX idx_invoice_products_invoice_id ON invoice_products(invoice_id);
+CREATE INDEX idx_invoice_products_product_id ON invoice_products(product_id);
