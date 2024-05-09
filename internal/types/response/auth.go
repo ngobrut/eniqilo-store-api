@@ -3,8 +3,8 @@ package response
 import "github.com/google/uuid"
 
 type AuthResponse struct {
-	UserID      uuid.UUID `json:"user_id"`
-	Phone       string    `json:"phone"`
+	UserID      uuid.UUID `json:"userId"`
+	Phone       string    `json:"phoneNumber"`
 	Name        string    `json:"name"`
 	AccessToken string    `json:"accessToken,omitempty"`
 }
