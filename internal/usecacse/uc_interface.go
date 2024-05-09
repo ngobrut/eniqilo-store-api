@@ -23,4 +23,7 @@ type IFaceUsecase interface {
 
 	// search sku
 	SearchSKU(ctx context.Context, req *request.SearchQuery) ([]*response.SearchSKU, error)
+
+	// customer
+	RegisterCustomer(ctx context.Context, req *request.RegisterCustomer) (*response.RegisterCustomer, error)
 }

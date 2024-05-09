@@ -24,4 +24,7 @@ type IFaceRepository interface {
 
 	// search
 	SearchSKU(ctx context.Context, params *request.SearchQuery) ([]*response.SearchSKU, error)
+
+	// customer
+	CreateCustomer(ctx context.Context, data *model.Customer) error
 }
