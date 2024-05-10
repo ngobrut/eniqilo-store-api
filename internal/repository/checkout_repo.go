@@ -122,7 +122,8 @@ func (r *Repository) FindInvoices(ctx context.Context, params *request.ListInvoi
 			ip.product_id,
 			ip.quantity,
 			i.paid,
-			i.change	
+			i.change,
+			to_char(i.created_at, 'YYYY-MM-DD HH24:MI:SS') as created_at
 		FROM invoice_products ip
 		LEFT JOIN invoices i ON ip.invoice_id = i.invoice_id `
 
@@ -184,6 +185,7 @@ func (r *Repository) FindInvoices(ctx context.Context, params *request.ListInvoi
 			&pd.Quantity,
 			&currIN.Paid,
 			&currIN.Change,
+			&currIN.CreatedAt,
 		)
 		if err != nil {
 			return nil, err

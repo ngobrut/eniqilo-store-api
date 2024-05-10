@@ -13,4 +13,5 @@ type ListInvoice struct {
 	ProductDetail []ProductDetail `json:"productDetails" db:"-"`
 	Paid          int             `json:"paid" db:"paid"`
 	Change        int             `json:"change" db:"change"`
+	CreatedAt     string          `json:"createdAt" db:"created_at"`
 }
