@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
 
@@ -52,6 +53,7 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 	_ = en_translations.RegisterDefaultTranslations(validate, trans)
 	validate.RegisterValidation("category", validateCategory)
 	validate.RegisterValidation("phoneCode", validatePhoneNumber)
+	validate.RegisterValidation("validUrl", validateURL)
 
 	err = validate.Struct(data)
 	if err == nil {
@@ -68,6 +70,8 @@ func ValidateStruct(r *http.Request, data interface{}) error {
 			message = fmt.Sprintf("%s must be one of [%s]", field.Field(), strings.Join(constant.Categories, ", "))
 		case "phoneCode":
 			message = "should start with `+` and international calling codes"
+		case "validUrl":
+			message = "should be url"
 		}
 
 		details = append(details, message)
@@ -94,4 +98,35 @@ func validatePhoneNumber(fl validator.FieldLevel) bool {
 		}
 	}
 	return false
+}
+
+func validateURL(fl validator.FieldLevel) bool {
+	parsedURL, err := url.Parse(fl.Field().String())
+	if err != nil {
+		return false
+	}
+
+	// Check if the scheme is present and it's http or https
+	if parsedURL.Scheme != "http" && parsedURL.Scheme != "https" {
+		return false
+	}
+
+	// Check if the host is present and it has a valid format
+	if parsedURL.Host == "" {
+		return false
+	}
+
+	// Check if the host has a valid domain format
+	parts := strings.Split(parsedURL.Host, ".")
+	if len(parts) < 2 {
+		return false
+	}
+
+	// Check if the path, if present, is in a valid format
+	if parsedURL.Path != "" && !strings.HasPrefix(parsedURL.Path, "/") {
+		return false
+	}
+
+	// All checks passed, URL is valid
+	return true
 }
