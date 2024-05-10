@@ -4,12 +4,10 @@ CREATE TABLE IF NOT EXISTS users (
 	phone varchar(25) not null,
 	password varchar(500) not null,
 	created_at timestamp default now(),
-	updated_at timestamp default now(),
-	deleted_at timestamp default null
+	updated_at timestamp default now()
 );
 
-CREATE UNIQUE INDEX unique_user_phone_idx ON users (phone)
-WHERE deleted_at IS NULL;
+CREATE UNIQUE INDEX unique_user_phone_idx ON users (phone);
 
 CREATE TABLE IF NOT EXISTS customers (
 	customer_id uuid default gen_random_uuid() not null constraint customers_pk primary key,
@@ -36,7 +34,9 @@ CREATE TABLE IF NOT EXISTS products (
 	updated_at timestamp default now(),
 	deleted_at timestamp default null
 );
+
 CREATE INDEX idx_sku ON products(sku);
+
 CREATE INDEX idx_name ON products(name);
 
 CREATE TABLE IF NOT EXISTS invoices (
@@ -64,4 +64,5 @@ CREATE TABLE IF NOT EXISTS invoice_products (
 );
 
 CREATE INDEX idx_invoice_products_invoice_id ON invoice_products(invoice_id);
+
 CREATE INDEX idx_invoice_products_product_id ON invoice_products(product_id);
