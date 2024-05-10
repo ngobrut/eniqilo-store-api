@@ -170,7 +170,6 @@ func (r *Repository) FindProducts(ctx context.Context, params *request.ListProdu
 		counter++
 	}
 
-	fmt.Println(query)
 	rows, err := r.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err
