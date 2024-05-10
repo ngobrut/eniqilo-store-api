@@ -40,6 +40,7 @@ func NewDBClient(cnf *config.Config, logger *logrus.Logger) (*pgxpool.Pool, erro
 		return nil, err
 	}
 
+	pgxconf.MaxConns = 20
 	pgxconf.ConnConfig.Tracer = &queryTracer{
 		log: logger,
 	}
