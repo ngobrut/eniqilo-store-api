@@ -11,15 +11,15 @@ type CreateProduct struct {
 }
 
 type ListProduct struct {
-	ProductID   uuid.UUID         `json:"product_id" db:"product_id"`
+	ProductID   uuid.UUID         `json:"id" db:"product_id"`
 	Name        string            `json:"name" db:"name"`
 	Sku         string            `json:"sku" db:"sku"`
 	Category    constant.Category `json:"category" db:"category"`
-	ImageUrl    string            `josn:"imageUrl" db:"image_url"`
+	ImageUrl    string            `json:"imageUrl" db:"image_url"`
 	Stock       int               `json:"stock" db:"stock"`
 	Notes       string            `json:"notes" db:"notes"`
 	Price       int               `json:"price" db:"price"`
 	Location    string            `json:"location" db:"location"`
 	IsAvailable bool              `json:"isAvailable" db:"is_available"`
-	CreatedAt   string            `json:"created_at" db:"created_at"`
+	CreatedAt   string            `json:"createdAt" db:"created_at"`
 }

@@ -9,7 +9,7 @@ type CreateProduct struct {
 	Name        string            `json:"name" validate:"required,min=1,max=30"`
 	Sku         string            `json:"sku" validate:"required,min=1,max=30"`
 	Category    constant.Category `json:"category" validate:"required,category"`
-	ImageUrl    string            `josn:"imageUrl" validate:"required,validUrl"`
+	ImageUrl    string            `json:"imageUrl" validate:"required,validUrl"`
 	Notes       string            `json:"notes" validate:"required,min=1,max=200"`
 	Price       int               `json:"price" validate:"required,min=1"`
 	Stock       *int              `json:"stock" validate:"required,min=0,max=100000"`
@@ -34,7 +34,7 @@ type UpdateProduct struct {
 	Name        string            `json:"name" validate:"required,min=1,max=30"`
 	Sku         string            `json:"sku" validate:"required,min=1,max=30"`
 	Category    constant.Category `json:"category" validate:"required,category"`
-	ImageUrl    string            `josn:"imageUrl" validate:"required,validUrl"`
+	ImageUrl    string            `json:"imageUrl" validate:"required,validUrl"`
 	Notes       string            `json:"notes" validate:"required,min=1,max=200"`
 	Price       int               `json:"price" validate:"required,min=1"`
 	Stock       *int              `json:"stock" validate:"required,min=0,max=100000"`

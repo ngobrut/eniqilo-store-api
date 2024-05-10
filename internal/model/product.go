@@ -12,7 +12,7 @@ type Product struct {
 	Name        string            `json:"name" db:"name"`
 	Sku         string            `json:"sku" db:"sku"`
 	Category    constant.Category `json:"category" db:"category"`
-	ImageUrl    string            `josn:"imageUrl" db:"image_url"`
+	ImageUrl    string            `json:"imageUrl" db:"image_url"`
 	Notes       string            `json:"notes" db:"notes"`
 	Price       int               `json:"price" db:"price"`
 	Stock       int               `json:"stock" db:"stock"`

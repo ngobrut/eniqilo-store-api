@@ -9,7 +9,7 @@ type Checkout struct {
 	CustomerID     string            `json:"customerId" validate:"required"`
 	ProductDetails []ProductCheckout `json:"productDetails" validate:"required,min=1,dive"`
 	Paid           int               `json:"paid" validate:"required,min=1"`
-	Change         *int              `josn:"change" validate:"required,min=0"`
+	Change         *int              `json:"change" validate:"required,min=0"`
 }
 
 type ListInvoiceQuery struct {
