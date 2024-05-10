@@ -1,12 +1,12 @@
 services:
-  eniqlo-store-api:
-    image: eniqlo-store-api:latest
+  eniqilo-store-api:
+    image: eniqilo-store-api:latest
     build:
       context: .
       dockerfile: Dockerfile
     env_file:
       - .env
-    container_name: eniqlo-store-api
+    container_name: eniqilo-store-api
     restart: unless-stopped
     ports:
       - 0.0.0.0:8080:8080

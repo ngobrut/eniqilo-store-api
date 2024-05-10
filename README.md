@@ -1,1 +1,1 @@
-# eniqlo-store-api
+# eniqilo-store-api

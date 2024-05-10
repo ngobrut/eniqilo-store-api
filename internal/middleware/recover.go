@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"runtime"
 
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
 	"github.com/sirupsen/logrus"
 )
 

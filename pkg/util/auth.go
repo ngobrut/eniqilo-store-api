@@ -3,7 +3,7 @@ package util
 import (
 	"context"
 
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
 )
 
 func GetUserIDFromCtx(ctx context.Context) string {

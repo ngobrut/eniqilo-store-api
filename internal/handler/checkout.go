@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_validator"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_validator"
 )
 
 func (h *Handler) Checkout(w http.ResponseWriter, r *http.Request) {

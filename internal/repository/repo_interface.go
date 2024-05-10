@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/google/uuid"
-	"github.com/ngobrut/eniqlo-store-api/internal/model"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/internal/model"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
 )
 
 type IFaceRepository interface {

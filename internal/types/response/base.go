@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_validator"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_validator"
 )
 
 type JsonResponse struct {

@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/ngobrut/eniqlo-store-api/internal/model"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/internal/model"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
 )
 
 func (u *Usecase) CreateProduct(ctx context.Context, req *request.CreateProduct) (*response.CreateProduct, error) {

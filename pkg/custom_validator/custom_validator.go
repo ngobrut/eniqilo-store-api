@@ -13,8 +13,8 @@ import (
 	en_translations "github.com/go-playground/validator/v10/translations/en"
 
 	"github.com/go-playground/locales/en"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
 )
 
 type ValidatorError struct {

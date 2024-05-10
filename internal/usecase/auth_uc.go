@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/ngobrut/eniqlo-store-api/internal/model"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
-	"github.com/ngobrut/eniqlo-store-api/pkg/jwt"
-	"github.com/ngobrut/eniqlo-store-api/pkg/util"
+	"github.com/ngobrut/eniqilo-store-api/internal/model"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/pkg/jwt"
+	"github.com/ngobrut/eniqilo-store-api/pkg/util"
 )
 
 // Register implements IFaceUsecase.

@@ -9,11 +9,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ngobrut/eniqlo-store-api/config"
-	http_handler "github.com/ngobrut/eniqlo-store-api/internal/handler"
-	"github.com/ngobrut/eniqlo-store-api/internal/repository"
-	"github.com/ngobrut/eniqlo-store-api/internal/usecase"
-	"github.com/ngobrut/eniqlo-store-api/pkg/postgres"
+	"github.com/ngobrut/eniqilo-store-api/config"
+	http_handler "github.com/ngobrut/eniqilo-store-api/internal/handler"
+	"github.com/ngobrut/eniqilo-store-api/internal/repository"
+	"github.com/ngobrut/eniqilo-store-api/internal/usecase"
+	"github.com/ngobrut/eniqilo-store-api/pkg/postgres"
 	"github.com/sirupsen/logrus"
 )
 

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
 )
 
 func (h *Handler) SearchSKU(w http.ResponseWriter, r *http.Request) {

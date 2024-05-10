@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_validator"
-	"github.com/ngobrut/eniqlo-store-api/pkg/util"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_validator"
+	"github.com/ngobrut/eniqilo-store-api/pkg/util"
 )
 
 func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {

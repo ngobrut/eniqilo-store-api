@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
-	custom_jwt "github.com/ngobrut/eniqlo-store-api/pkg/jwt"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
+	custom_jwt "github.com/ngobrut/eniqilo-store-api/pkg/jwt"
 )
 
 func Authorize(secret string) func(h http.Handler) http.Handler {

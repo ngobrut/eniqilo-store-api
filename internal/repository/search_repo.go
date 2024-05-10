@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ngobrut/eniqlo-store-api/internal/types/request"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/request"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
 )
 
 func (r *Repository) SearchSKU(ctx context.Context, params *request.SearchQuery) ([]*response.SearchSKU, error) {

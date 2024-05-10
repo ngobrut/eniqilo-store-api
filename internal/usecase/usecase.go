@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/ngobrut/eniqlo-store-api/config"
-	"github.com/ngobrut/eniqlo-store-api/internal/repository"
+	"github.com/ngobrut/eniqilo-store-api/config"
+	"github.com/ngobrut/eniqilo-store-api/internal/repository"
 )
 
 type Usecase struct {

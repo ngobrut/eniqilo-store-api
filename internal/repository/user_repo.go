@@ -6,9 +6,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/ngobrut/eniqlo-store-api/internal/model"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/internal/model"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
 )
 
 // CreateUser implements IFaceRepository.

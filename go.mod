@@ -1,4 +1,4 @@
-module github.com/ngobrut/eniqlo-store-api
+module github.com/ngobrut/eniqilo-store-api
 
 go 1.22.2
 

@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
 )
 
 type Product struct {

@@ -3,7 +3,7 @@ package util
 import (
 	"net/http"
 
-	"github.com/ngobrut/eniqlo-store-api/pkg/custom_error"
+	"github.com/ngobrut/eniqilo-store-api/pkg/custom_error"
 	"golang.org/x/crypto/bcrypt"
 )
 

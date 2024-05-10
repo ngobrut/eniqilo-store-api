@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/ngobrut/eniqlo-store-api/config"
+	"github.com/ngobrut/eniqilo-store-api/config"
 	"github.com/sirupsen/logrus"
 )
 

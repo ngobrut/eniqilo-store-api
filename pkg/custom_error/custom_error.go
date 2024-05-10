@@ -3,7 +3,7 @@ package custom_error
 import (
 	"net/http"
 
-	"github.com/ngobrut/eniqlo-store-api/pkg/constant"
+	"github.com/ngobrut/eniqilo-store-api/pkg/constant"
 )
 
 type CustomError struct {

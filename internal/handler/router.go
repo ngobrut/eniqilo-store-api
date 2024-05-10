@@ -9,10 +9,10 @@ import (
 
 	// chi_middleware "github.com/go-chi/chi/v5/middleware"
 
-	"github.com/ngobrut/eniqlo-store-api/config"
-	"github.com/ngobrut/eniqlo-store-api/internal/middleware"
-	"github.com/ngobrut/eniqlo-store-api/internal/types/response"
-	"github.com/ngobrut/eniqlo-store-api/internal/usecase"
+	"github.com/ngobrut/eniqilo-store-api/config"
+	"github.com/ngobrut/eniqilo-store-api/internal/middleware"
+	"github.com/ngobrut/eniqilo-store-api/internal/types/response"
+	"github.com/ngobrut/eniqilo-store-api/internal/usecase"
 )
 
 type Handler struct {
@@ -49,7 +49,7 @@ func InitHTTPHandler(cnf *config.Config, uc usecase.IFaceUsecase, logger *logrus
 			Success: true,
 			Message: "Success",
 			Data: map[string]interface{}{
-				"app-name": "eniqlo-store-api-api",
+				"app-name": "eniqilo-store-api-api",
 			},
 		})
 	})
