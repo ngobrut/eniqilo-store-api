@@ -130,21 +130,26 @@ func (r *Repository) FindProducts(ctx context.Context, params *request.ListProdu
 		query += " AND" + strings.Join(clause, " AND")
 	}
 
-	query += " ORDER BY"
+	var orderClause = make([]string, 0)
 	if params.Price != nil {
 		if *params.Price == "desc" {
-			query += " price DESC,"
+			orderClause = append(orderClause, " price DESC")
 		}
 		if *params.Price == "asc" {
-			query += " price ASC,"
+			orderClause = append(orderClause, " price ASC")
 		}
 	}
-
 	if params.CreatedAt != nil && *params.CreatedAt == "asc" {
-		query += " created_at ASC"
+		orderClause = append(orderClause, " created_at at time zone 'Asia/Jakarta' ASC")
 	} else {
-		query += " created_at DESC"
+
+		orderClause = append(orderClause, " created_at at time zone 'Asia/Jakarta' DESC")
 	}
+
+	if len(orderClause) > 0 {
+		query += " ORDER BY" + strings.Join(orderClause, ",")
+	}
+
 	if params.Limit != nil && *params.Limit != 0 {
 		query += fmt.Sprintf(" LIMIT $%d", counter)
 		args = append(args, params.Limit)
@@ -165,6 +170,7 @@ func (r *Repository) FindProducts(ctx context.Context, params *request.ListProdu
 		counter++
 	}
 
+	fmt.Println(query)
 	rows, err := r.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err

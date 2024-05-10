@@ -48,14 +48,16 @@ func (r *Repository) SearchSKU(ctx context.Context, params *request.SearchQuery)
 		query += " AND" + strings.Join(clause, " AND")
 	}
 
+	query += " ORDER BY"
 	if params.Price != nil {
 		if *params.Price == "desc" {
-			query += " ORDER BY price DESC"
+			query += " price DESC,"
 		}
 		if *params.Price == "asc" {
-			query += " ORDER BY price ASC"
+			query += " price ASC,"
 		}
 	}
+	query += " created_at at time zone 'Asia/Jakarta' DESC"
 
 	if params.Limit != nil && *params.Limit != 0 {
 		query += fmt.Sprintf(" LIMIT $%d", counter)
