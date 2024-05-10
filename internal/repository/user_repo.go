@@ -57,7 +57,7 @@ func (r *Repository) GetOneUserByID(ctx context.Context, userID uuid.UUID) (*mod
 		)
 
 	if err != nil {
-		if IsRecordNotFound(err) {
+		if err == pgx.ErrNoRows {
 			err = custom_error.SetCustomError(&custom_error.ErrorContext{
 				HTTPCode: http.StatusNotFound,
 				Message:  constant.HTTPStatusText(http.StatusNotFound),
@@ -86,7 +86,8 @@ func (r *Repository) GetOneUserByPhone(ctx context.Context, phone string) (*mode
 		)
 
 	if err != nil {
-		if IsRecordNotFound(err) {
+		print(err.Error())
+		if err == pgx.ErrNoRows {
 			err = custom_error.SetCustomError(&custom_error.ErrorContext{
 				HTTPCode: http.StatusNotFound,
 				Message:  constant.HTTPStatusText(http.StatusNotFound),
