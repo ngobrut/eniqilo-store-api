@@ -51,13 +51,15 @@ func (r *Repository) SearchSKU(ctx context.Context, params *request.SearchQuery)
 	query += " ORDER BY"
 	if params.Price != nil {
 		if *params.Price == "desc" {
-			query += " price DESC,"
+			query += " price DESC"
+		} else if *params.Price == "asc" {
+			query += " price ASC"
+		} else {
+			query += " created_at at time zone 'Asia/Jakarta' DESC"
 		}
-		if *params.Price == "asc" {
-			query += " price ASC,"
-		}
+	} else {
+		query += " created_at at time zone 'Asia/Jakarta' DESC"
 	}
-	query += " created_at at time zone 'Asia/Jakarta' DESC"
 
 	if params.Limit != nil && *params.Limit != 0 {
 		query += fmt.Sprintf(" LIMIT $%d", counter)
@@ -78,7 +80,7 @@ func (r *Repository) SearchSKU(ctx context.Context, params *request.SearchQuery)
 		args = append(args, 0)
 		counter++
 	}
-
+	fmt.Println(query)
 	rows, err := r.db.Query(ctx, query, args...)
 	if err != nil {
 		return nil, err
