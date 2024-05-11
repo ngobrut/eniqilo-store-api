@@ -48,14 +48,10 @@ func RequestLogger(h http.Handler) http.Handler {
 			}
 
 			if len(b) > 0 {
-				body := make(map[string]interface{})
-				err = json.Unmarshal(b, &body)
-				if err != nil {
-					log.Printf("[error-json.Unmarshal()] \n%v\n", err)
-				}
+				fields["@request"] = string(b)
+			}
 
-				fields["@request"] = body
-
+			if len(fields) > 0 {
 				logfield, err := json.Marshal(fields)
 				if err != nil {
 					log.Printf("[error-json.Marshal()] \n%v\n", err)
