@@ -51,6 +51,12 @@ func NewDBClient(cnf *config.Config, logger *logrus.Logger) (*pgxpool.Pool, erro
 		return nil, err
 	}
 
+	err = pool.Ping(context.Background())
+	if err != nil {
+		log.Printf("[error-db-connection] %v\n", err)
+		return nil, err
+	}
+
 	log.Println("[postgres-connected]")
 
 	return pool, nil
