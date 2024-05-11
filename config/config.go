@@ -1,14 +1,14 @@
 package config
 
 import (
-	"log"
+	"os"
 
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
 	JWTSecret  string
-	BcryptSalt int
+	BcryptSalt string
 	Postgres   Postgres
 }
 
@@ -22,24 +22,18 @@ type Postgres struct {
 }
 
 func New() *Config {
-	viper.SetConfigFile(".env")
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatal("[config-file-fail-load] \n", err.Error())
-	}
-
-	v := viper.GetViper()
-	viper.AutomaticEnv()
+	_ = godotenv.Load()
 
 	return &Config{
-		JWTSecret:  v.GetString("JWT_SECRET"),
-		BcryptSalt: v.GetInt("BCRYPT_SALT"),
+		JWTSecret:  os.Getenv("JWT_SECRET"),
+		BcryptSalt: os.Getenv("BCRYPT_SALT"),
 		Postgres: Postgres{
-			Host:     v.GetString("DB_HOST"),
-			Port:     v.GetString("DB_PORT"),
-			Database: v.GetString("DB_NAME"),
-			User:     v.GetString("DB_USERNAME"),
-			Password: v.GetString("DB_PASSWORD"),
-			Params:   v.GetString("DB_PARAMS"),
+			Host:     os.Getenv("DB_HOST"),
+			Port:     os.Getenv("DB_PORT"),
+			Database: os.Getenv("DB_NAME"),
+			User:     os.Getenv("DB_USERNAME"),
+			Password: os.Getenv("DB_PASSWORD"),
+			Params:   os.Getenv("DB_PARAMS"),
 		},
 	}
 }
