@@ -1,14 +1,19 @@
-FROM golang:1.22
+FROM --platform=linux/amd64 golang:1.22-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod ./
+COPY go.mod go.sum ./
+
 RUN go mod download
 
 COPY . .
-COPY .env .
 
-RUN CGO_ENABLED=0 GOOS=linux OOARCH=amd64 go build -o /main
+RUN GOOS=linux GOARCH=amd64 go build -o main ./main.go
+
+FROM alpine
+WORKDIR /app
+
+COPY --from=builder /app/main .
 
 EXPOSE 8080
-CMD ["/main"]
+CMD ["./main"]
