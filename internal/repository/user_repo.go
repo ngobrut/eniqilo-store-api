@@ -86,7 +86,6 @@ func (r *Repository) GetOneUserByPhone(ctx context.Context, phone string) (*mode
 		)
 
 	if err != nil {
-		print(err.Error())
 		if err == pgx.ErrNoRows {
 			err = custom_error.SetCustomError(&custom_error.ErrorContext{
 				HTTPCode: http.StatusNotFound,

@@ -32,7 +32,7 @@ func Exec() error {
 
 	repo := repository.New(cnf, db)
 	uc := usecase.New(cnf, db, repo)
-	handler := http_handler.InitHTTPHandler(cnf, uc, logger)
+	handler := http_handler.InitHTTPHandler(cnf, uc)
 
 	httpServer := &http.Server{
 		Addr:              addr,

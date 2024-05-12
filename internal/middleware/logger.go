@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -33,13 +32,10 @@ func RequestLogger(h http.Handler) http.Handler {
 		defer func() {
 			log.Printf("%s from %s - %d in %s \n", fmt.Sprintf("%s %s %s", r.Method, r.RequestURI, r.Proto), r.RemoteAddr, ww.statusCode, time.Since(t1).Abs().String())
 
-			fields := make(map[string]interface{})
 			token, _ := GetTokenFromHeader(r)
 			claims := ParseWithoutVerified(token)
 			if token != "" && claims != nil {
-				fields["@auth"] = map[string]interface{}{
-					"user_id": claims.UserID,
-				}
+				log.Printf(`{"@auth":{"user_id"%s}}`, claims.UserID)
 			}
 
 			err = r.Body.Close()
@@ -48,18 +44,8 @@ func RequestLogger(h http.Handler) http.Handler {
 			}
 
 			if len(b) > 0 {
-				fields["@request"] = string(b)
+				log.Printf(`{"@request":%s}`, string(b))
 			}
-
-			if len(fields) > 0 {
-				logfield, err := json.Marshal(fields)
-				if err != nil {
-					log.Printf("[error-json.Marshal()] \n%v\n", err)
-				}
-
-				log.Println(string(logfield))
-			}
-
 		}()
 
 		r.Body = io.NopCloser(bytes.NewBuffer(b))

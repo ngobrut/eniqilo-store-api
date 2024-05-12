@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/sirupsen/logrus"
 
 	// chi_middleware "github.com/go-chi/chi/v5/middleware"
 
@@ -20,10 +19,10 @@ type Handler struct {
 	uc  usecase.IFaceUsecase
 }
 
-func InitHTTPHandler(cnf *config.Config, uc usecase.IFaceUsecase, logger *logrus.Logger) http.Handler {
+func InitHTTPHandler(cnf *config.Config, uc usecase.IFaceUsecase) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestLogger)
-	r.Use(middleware.Recover(logger))
+	r.Use(middleware.Recover)
 
 	h := Handler{
 		cnf: cnf,
